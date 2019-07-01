@@ -101,7 +101,7 @@ def render_distance():
 #function for render on page
 count = 0
 period_count=0
-period_title = "Period"+str(period_count)
+period_title = "Period : "+str(period_count)
 def render(i):
     global count
     global period_count
@@ -126,7 +126,7 @@ def render(i):
         if(len(Current_Nodes) != 0 and OutPut[count][4:] in Visited_Nodes):
             period()
             period_count += 1
-            period_title = "Period"+str(period_count)
+            period_title = "Period : "+str(period_count)
         if(len(Current_Nodes) != 0):
             Visited_Nodes.append(Current_Nodes[0])
         Current_Nodes.clear()
@@ -195,7 +195,7 @@ def render(i):
 ani = matplotlib.animation.FuncAnimation(fig, render,interval=1000,repeat=True)
 def stop_animation():
     ani.event_source.stop()
-ani.save('myAnimation.gif', writer='imagemagick', fps=1)
+#ani.save('myAnimation.gif', writer='imagemagick', fps=1)
 #stop animation
 
 plt.show()
