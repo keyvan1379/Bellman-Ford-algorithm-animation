@@ -100,7 +100,7 @@ def render_distance():
 
 #function for render on page
 count = 0
-period_count=0
+period_count=1
 period_title = "Period : "+str(period_count)
 def render(i):
     global count
@@ -153,20 +153,27 @@ def render(i):
 
 
     elif "Final" in OutPut[count]:
-        split_list = OutPut[count][6:].split(",")
         period()
         Unvisited_Edges = []
         Unvisited_Nodes = []
         edge_labels = {}
-        Visited_Nodes.append(split_list[0])
-        for i in range(len(split_list)-1):
-            Visited_Nodes.append(split_list[i+1])
-            Edge = [split_list[i],split_list[i+1]]
-            edge_labels.__setitem__(tuple("".join(Edge)),G[split_list[i]][split_list[i+1]]['weight'])
-            Visited_Edges.append(tuple("".join(Edge)))
-            Edge = []
-
+        while(True):
+            if count==len(OutPut):
+                break
+            split_list = OutPut[count][6:].split(",")
+            #sf
+            Visited_Nodes.append(split_list[0])
+            for i in range(len(split_list)-1):
+                Visited_Nodes.append(split_list[i+1])
+                Edge = [split_list[i],split_list[i+1]]
+                if tuple("".join(Edge)) in edge_labels:
+                    continue
+                edge_labels.__setitem__(tuple("".join(Edge)),G[split_list[i]][split_list[i+1]]['weight'])
+                Visited_Edges.append(tuple("".join(Edge)))
+                Edge = []
+            count += 1
         period_title = "Final Path"
+        print(Visited_Edges)
         stop_animation()
 
 

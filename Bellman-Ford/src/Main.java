@@ -151,12 +151,14 @@ public class Main {
                 System.out.println("Node"+node.getLabel());
                 for (Node adjacent :
                         node.getAdjacencyList().keySet()) {
+
                     if ( distance.get(adjacent) > distance.get(node) + node.getAdjacencyList().get(adjacent) )
                     {
                         distance.put( adjacent , distance.get(node) + node.getAdjacencyList().get(adjacent) );
                         if ( paths.get(node) == null )
                         {
                             paths.put( adjacent, new ArrayList<>() );
+                            //System.out.println(adjacent.getLabel());
                             paths.get(adjacent).add(node);
                         }
                         else
@@ -173,22 +175,26 @@ public class Main {
                 }
             }
         }
-        int max=0;
+        /*int max=0;
         Node node1 = null;
         for (Node node:paths.keySet()){
             if(paths.get(node).size() > max){
                 max = paths.get(node).size();
                 node1 = node;
             }
+        }*/
+        //System.out.println(paths.keySet().size());
+        for (Node node1:
+             paths.keySet()) {
+            paths.get(node1).add(node1);
+            String path = "";
+            path += "Final";
+            for (Node node:
+                    paths.get(node1)) {
+                path += (","+node.getLabel());
+            }
+            System.out.println(path);
         }
-        paths.get(node1).add(node1);
-        String path = "";
-        path += "Final";
-        for (Node node:
-             paths.get(node1)) {
-            path += (","+node.getLabel());
-        }
-        System.out.println(path);
     }
 
 
@@ -197,7 +203,7 @@ public class Main {
         int numberOfNodes = Integer.parseInt(args[0]);
         int numberOfEdge = Integer.parseInt(args[1]);
 
-        HashMap<String,Node> nodes = new HashMap<>();
+        LinkedHashMap<String,Node> nodes = new LinkedHashMap<>();
         /*IntStream.range(1,(numberOfNodes+1)).forEach(x -> nodes.add(new Node(String.valueOf(x))));*/
         for (int i = 0; i < numberOfNodes; i++) {
             nodes.put(args[i+2],new Node(args[i+2]));
@@ -209,8 +215,11 @@ public class Main {
                     nodes.get(args[j+3+numberOfNodes]),Double.parseDouble(args[j+4+numberOfNodes])));
             j = j+3;
         }
-        Collection<Node> values = nodes.values();
-        ArrayList<Node> nodes1 = new ArrayList<>(values);
+        ArrayList<Node> nodes1 = new ArrayList<>();
+        for (int o = 0; o < nodes.values().size(); o++) {
+            nodes1.add((Node)nodes.values().toArray()[o]);
+        }
+        //System.out.println(nodes1);
         Graph graph = new Graph(nodes1, edges, true);
         bellmanford(graph, nodes1.get(0));
 
